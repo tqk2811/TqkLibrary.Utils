@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TqkLibrary.Utils", "TqkLibrary.Utils\TqkLibrary.Utils.csproj", "{190B5BED-9F5C-413E-9998-17300FDF06CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{190B5BED-9F5C-413E-9998-17300FDF06CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{190B5BED-9F5C-413E-9998-17300FDF06CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{190B5BED-9F5C-413E-9998-17300FDF06CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{190B5BED-9F5C-413E-9998-17300FDF06CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EB68204D-6D7D-4BCD-A231-4857A5F93FAB}
+	EndGlobalSection
+EndGlobal
