@@ -10,6 +10,8 @@
 		<repository type="git" url="https://github.com/tqk2811/TqkLibrary.Utils.git"/>
 		<license type="expression">MIT</license>
 		<dependencies>
+			<dependency id="Nito.AsyncEx" version="5.1.2" />
+			<dependency id="TqkLibrary.Net" version="1.0.0-build2022041800" />
 		</dependencies>
 	</metadata>
 	<files>

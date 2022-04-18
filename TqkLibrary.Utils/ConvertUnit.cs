@@ -15,11 +15,11 @@ namespace TqkLibrary.Utils
         /// 
         /// </summary>
 
-        public static readonly string[] UnitSize = { "Byte", "Kib", "Mib", "Gib", "Tib" };
+        public static readonly string[] UnitSize = { "Byte", "KiB", "MiB", "GiB", "TiB" };
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string[] UnitSizeSpeed = { "Byte/s", "Kib/s", "Mib/s", "Gib/s", "Tib/s" };
+        public static readonly string[] UnitSizeSpeed = { "Byte/s", "KiB/s", "MiB/s", "GiB/s", "TiB/s" };
         /// <summary>
         /// 
         /// </summary>
