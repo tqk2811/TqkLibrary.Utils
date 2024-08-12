@@ -21,7 +21,7 @@ namespace TqkLibrary.Utils
         /// <param name="obj"></param>
         /// <param name="jsonSerializerSettings"></param>
         /// <returns></returns>
-        public static T CloneByJson<T>(this T obj, JsonSerializerSettings? jsonSerializerSettings = null)
+        public static T CloneByJson<T>(this object obj, JsonSerializerSettings? jsonSerializerSettings = null)
         {
             return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj, jsonSerializerSettings), jsonSerializerSettings)!;
         }
