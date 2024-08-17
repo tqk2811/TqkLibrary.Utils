@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nito.AsyncEx;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,5 +38,34 @@ namespace TqkLibrary.Utils
             await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
             await task;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskFactory"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static Task StartNewWithAsyncContext(this TaskFactory taskFactory, Action action)
+        {
+            return taskFactory.StartNew(
+                () => { AsyncContext.Run(action); },
+                TaskCreationOptions.LongRunning
+                );
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskFactory"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static Task<T> StartNewWithAsyncContext<T>(this TaskFactory taskFactory, Func<T> action)
+        {
+            return taskFactory.StartNew<T>(
+                () => { return AsyncContext.Run(action); },
+                TaskCreationOptions.LongRunning
+            );
+        }
+
     }
 }
