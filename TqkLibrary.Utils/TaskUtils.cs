@@ -57,15 +57,53 @@ namespace TqkLibrary.Utils
         /// 
         /// </summary>
         /// <param name="taskFactory"></param>
-        /// <param name="action"></param>
+        /// <param name="func"></param>
         /// <returns></returns>
-        public static Task<T> StartNewWithAsyncContext<T>(this TaskFactory taskFactory, Func<T> action)
+        public static Task<T> StartNewWithAsyncContext<T>(this TaskFactory taskFactory, Func<T> func)
         {
             return taskFactory.StartNew<T>(
-                () => { return AsyncContext.Run(action); },
+                () => { return AsyncContext.Run(func); },
                 TaskCreationOptions.LongRunning
             );
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="taskFactory"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static Task StartNewWithAsyncContext(this TaskFactory taskFactory, Func<Task> func)
+        {
+            return taskFactory.StartNew(
+                () => { AsyncContext.Run(async () => await func()); },
+                TaskCreationOptions.LongRunning
+            );
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="taskFactory"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static Task<T> StartNewWithAsyncContext<T>(this TaskFactory taskFactory, Func<Task<T>> func)
+        {
+            return taskFactory.StartNew<T>(
+                () => { return AsyncContext.Run(async () => await func()); },
+                TaskCreationOptions.LongRunning
+            );
+        }
+
+
+#if DEBUG
+        static async void Test()
+        {
+            //fix async () =>
+            await Task.Factory.StartNewWithAsyncContext(async () => { });
+            int a = await Task.Factory.StartNewWithAsyncContext(async () => { return 2; });
+        }
+#endif
     }
 }
