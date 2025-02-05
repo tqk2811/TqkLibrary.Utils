@@ -23,8 +23,9 @@ namespace TqkLibrary.Utils
         /// <returns></returns>
         public static async Task<T> DelayAsync<T>(this Task<T> task, int delay, CancellationToken cancellationToken = default)
         {
+            T result = await task.ConfigureAwait(false);
             await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
-            return await task;
+            return result;
         }
         /// <summary>
         /// 
@@ -35,8 +36,8 @@ namespace TqkLibrary.Utils
         /// <returns></returns>
         public static async Task DelayAsync(this Task task, int delay, CancellationToken cancellationToken = default)
         {
-            await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
             await task;
+            await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
