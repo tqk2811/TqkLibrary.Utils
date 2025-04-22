@@ -12,6 +12,21 @@ namespace TqkLibrary.Utils
     /// <summary>
     /// 
     /// </summary>
+    public class DeepCopySetting
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public JsonSerializerSettings? JsonSerializerSettings { get; set; }
+
+        /// <summary>
+        /// Does not work with IEnumerable and its children
+        /// </summary>
+        public bool IsAllowCopyNullToTarget { get; set; } = true;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
     public static class DeepCopyHelper
     {
         /// <summary>
@@ -39,28 +54,20 @@ namespace TqkLibrary.Utils
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="current"></param>
-        /// <param name="target"></param>
-        /// <param name="jsonSerializerSettings"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void DeepCopyTo<T>(this T current, T? target, JsonSerializerSettings? jsonSerializerSettings = null) where T : class
+        public static void DeepCopyTo<T>(this T current, T? target, DeepCopySetting? deepCopySetting = null) where T : class
         {
             if (current is null) throw new ArgumentNullException(nameof(current));
             if (target is null) throw new ArgumentNullException(nameof(target));
-            current.DeepCopyTo(target, current.GetType(), jsonSerializerSettings);
+            current.DeepCopyTo(target, current.GetType(), deepCopySetting);
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="current"></param>
-        /// <param name="target"></param>
-        /// <param name="type"></param>
-        /// <param name="jsonSerializerSettings"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="NotSupportedException"></exception>
-        public static void DeepCopyTo(this object current, object target, Type type, JsonSerializerSettings? jsonSerializerSettings = null)
+        public static void DeepCopyTo(this object current, object target, Type type, DeepCopySetting? deepCopySetting = null)
         {
             if (current is null) throw new ArgumentNullException(nameof(current));
             if (target is null) throw new ArgumentNullException(nameof(target));
@@ -90,11 +97,11 @@ namespace TqkLibrary.Utils
             {
                 if (current is IList list_current && target is IList list_target)
                 {
-                    CloneIList(list_current, list_target, jsonSerializerSettings);
+                    CloneIList(list_current, list_target, deepCopySetting?.JsonSerializerSettings);
                 }
                 else if (current is IDictionary dict_current && target is IDictionary dict_target)
                 {
-                    CloneIDictionary(dict_current, dict_target, jsonSerializerSettings);
+                    CloneIDictionary(dict_current, dict_target, deepCopySetting?.JsonSerializerSettings);
                 }
                 else throw new NotSupportedException(type.FullName);
             }
@@ -105,7 +112,10 @@ namespace TqkLibrary.Utils
                     object? f_current = propertyInfo.GetValue(current);
                     if (f_current is null)
                     {
-                        propertyInfo.SetValue(target, null);
+                        if (deepCopySetting?.IsAllowCopyNullToTarget != false)
+                        {
+                            propertyInfo.SetValue(target, null);
+                        }
                     }
                     else
                     {
@@ -118,7 +128,7 @@ namespace TqkLibrary.Utils
                         }
                         else if (propertyInfo.PropertyType.IsArray)//array
                         {
-                            propertyInfo.SetValue(target, f_current.CloneByJson(f_current.GetType(), jsonSerializerSettings));
+                            propertyInfo.SetValue(target, f_current.CloneByJson(f_current.GetType(), deepCopySetting?.JsonSerializerSettings));
                         }
                         else if (typeof(IEnumerable).IsAssignableFrom(propertyInfo.PropertyType))
                         {
@@ -126,17 +136,17 @@ namespace TqkLibrary.Utils
                             if (f_target is null)
                             {
                                 //just clone
-                                propertyInfo.SetValue(target, f_current.CloneByJson(f_current.GetType(), jsonSerializerSettings));
+                                propertyInfo.SetValue(target, f_current.CloneByJson(f_current.GetType(), deepCopySetting?.JsonSerializerSettings));
                             }
                             else
                             {
                                 if (f_target is IList list_target)//just dont break pointer of List<T>
                                 {
-                                    CloneIList((IList)f_current, list_target, jsonSerializerSettings);
+                                    CloneIList((IList)f_current, list_target, deepCopySetting?.JsonSerializerSettings);
                                 }
                                 else if (f_target is IDictionary dict_target)//just dont break pointer of Dictionary<TKey,TValue>
                                 {
-                                    CloneIDictionary((IDictionary)f_current, dict_target, jsonSerializerSettings);
+                                    CloneIDictionary((IDictionary)f_current, dict_target, deepCopySetting?.JsonSerializerSettings);
                                 }
                                 else throw new NotSupportedException(propertyInfo.PropertyType.FullName);
                             }
@@ -146,7 +156,7 @@ namespace TqkLibrary.Utils
                             var f_target = propertyInfo.GetValue(target);
                             if (f_target is null)
                             {
-                                propertyInfo.SetValue(target, f_current.CloneByJson(f_current.GetType(), jsonSerializerSettings));
+                                propertyInfo.SetValue(target, f_current.CloneByJson(f_current.GetType(), deepCopySetting?.JsonSerializerSettings));
                             }
                             else
                             {
