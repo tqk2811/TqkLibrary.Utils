@@ -17,7 +17,7 @@ namespace TqkLibrary.Utils
         /// <param name="dict"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static TValue? TryGetValue<TKey, TValue>(IReadOnlyDictionary<TKey, TValue> dict, TKey key)
+        public static TValue? TryGetValue<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dict, TKey key)
         {
             if (dict.TryGetValue(key, out TValue? value))
             {
