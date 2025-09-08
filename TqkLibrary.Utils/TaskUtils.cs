@@ -97,6 +97,21 @@ namespace TqkLibrary.Utils
             );
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
+        public static Task<T[]> WhenAll<T>(this IEnumerable<Task<T>> tasks) => Task.WhenAll(tasks);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
+        public static Task WhenAll<T>(this IEnumerable<Task> tasks) => Task.WhenAll(tasks);
+
 
 #if DEBUG
         static async void Test()
