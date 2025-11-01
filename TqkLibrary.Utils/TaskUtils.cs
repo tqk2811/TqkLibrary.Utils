@@ -113,12 +113,70 @@ namespace TqkLibrary.Utils
         public static Task WhenAll<T>(this IEnumerable<Task> tasks) => Task.WhenAll(tasks);
 
 
+        public static Task ContinueWith<TState>(this Task task, Action<Task, TState> continuationAction, TState state)
+            => task.ContinueWith((Task _task, object? _state) => continuationAction.Invoke(_task, (TState)_state!), state);
+        public static Task ContinueWith<TState>(this Task task, Action<Task, TState> continuationAction, TState state, CancellationToken cancellationToken)
+            => task.ContinueWith((Task _task, object? _state) => continuationAction.Invoke(_task, (TState)_state!), state, cancellationToken);
+        public static Task ContinueWith<TState>(this Task task, Action<Task, TState> continuationAction, TState state, TaskContinuationOptions taskContinuationOptions)
+            => task.ContinueWith((Task _task, object? _state) => continuationAction.Invoke(_task, (TState)_state!), state, taskContinuationOptions);
+        public static Task ContinueWith<TState>(this Task task, Action<Task, TState> continuationAction, TState state, TaskScheduler taskScheduler)
+            => task.ContinueWith((Task _task, object? _state) => continuationAction.Invoke(_task, (TState)_state!), state, taskScheduler);
+        public static Task ContinueWith<TState>(this Task task, Action<Task, TState> continuationAction, TState state, CancellationToken cancellationToken, TaskContinuationOptions taskContinuationOptions, TaskScheduler taskScheduler)
+            => task.ContinueWith((Task _task, object? _state) => continuationAction.Invoke(_task, (TState)_state!), state, cancellationToken, taskContinuationOptions, taskScheduler);
+
+
+        public static Task ContinueWith<T, TState>(this Task<T> task, Action<Task<T>, TState> continuationAction, TState state)
+            => task.ContinueWith((Task<T> _task, object? _state) => continuationAction.Invoke(_task, (TState)_state!), state);
+        public static Task ContinueWith<T, TState>(this Task<T> task, Action<Task<T>, TState> continuationAction, TState state, CancellationToken cancellationToken)
+            => task.ContinueWith((Task<T> _task, object? _state) => continuationAction.Invoke(_task, (TState)_state!), state, cancellationToken);
+        public static Task ContinueWith<T, TState>(this Task<T> task, Action<Task<T>, TState> continuationAction, TState state, TaskContinuationOptions taskContinuationOptions)
+            => task.ContinueWith((Task<T> _task, object? _state) => continuationAction.Invoke(_task, (TState)_state!), state, taskContinuationOptions);
+        public static Task ContinueWith<T, TState>(this Task<T> task, Action<Task<T>, TState> continuationAction, TState state, TaskScheduler taskScheduler)
+            => task.ContinueWith((Task<T> _task, object? _state) => continuationAction.Invoke(_task, (TState)_state!), state, taskScheduler);
+        public static Task ContinueWith<T, TState>(this Task<T> task, Action<Task<T>, TState> continuationAction, TState state, CancellationToken cancellationToken, TaskContinuationOptions taskContinuationOptions, TaskScheduler taskScheduler)
+            => task.ContinueWith((Task<T> _task, object? _state) => continuationAction.Invoke(_task, (TState)_state!), state, cancellationToken, taskContinuationOptions, taskScheduler);
+
+
+
+        public static Task<TNewResult> ContinueWith<TState, TNewResult>(this Task task, Func<Task, TState, Task<TNewResult>> continuationFunction, TState state)
+            => task.ContinueWith((Task _task, object? _state) => continuationFunction.Invoke(_task, (TState)_state!), state).Unwrap();
+        public static Task<TNewResult> ContinueWith<TState, TNewResult>(this Task task, Func<Task, TState, Task<TNewResult>> continuationFunction, TState state, CancellationToken cancellationToken)
+            => task.ContinueWith((Task _task, object? _state) => continuationFunction.Invoke(_task, (TState)_state!), state, cancellationToken).Unwrap();
+        public static Task<TNewResult> ContinueWith<TState, TNewResult>(this Task task, Func<Task, TState, Task<TNewResult>> continuationFunction, TState state, TaskContinuationOptions taskContinuationOptions)
+            => task.ContinueWith((Task _task, object? _state) => continuationFunction.Invoke(_task, (TState)_state!), state, taskContinuationOptions).Unwrap();
+        public static Task<TNewResult> ContinueWith<TState, TNewResult>(this Task task, Func<Task, TState, Task<TNewResult>> continuationFunction, TState state, TaskScheduler taskScheduler)
+            => task.ContinueWith((Task _task, object? _state) => continuationFunction.Invoke(_task, (TState)_state!), state, taskScheduler).Unwrap();
+        public static Task<TNewResult> ContinueWith<TState, TNewResult>(this Task task, Func<Task, TState, Task<TNewResult>> continuationFunction, TState state, CancellationToken cancellationToken, TaskContinuationOptions taskContinuationOptions, TaskScheduler taskScheduler)
+            => task.ContinueWith((Task _task, object? _state) => continuationFunction.Invoke(_task, (TState)_state!), state, cancellationToken, taskContinuationOptions, taskScheduler).Unwrap();
+
+
+        public static Task<TNewResult> ContinueWith<T, TState, TNewResult>(this Task<T> task, Func<Task<T>, TState, Task<TNewResult>> continuationFunction, TState state)
+            => task.ContinueWith((Task<T> _task, object? _state) => continuationFunction.Invoke(_task, (TState)_state!), state).Unwrap();
+        public static Task<TNewResult> ContinueWith<T, TState, TNewResult>(this Task<T> task, Func<Task<T>, TState, Task<TNewResult>> continuationFunction, TState state, CancellationToken cancellationToken)
+            => task.ContinueWith((Task<T> _task, object? _state) => continuationFunction.Invoke(_task, (TState)_state!), state, cancellationToken).Unwrap();
+        public static Task<TNewResult> ContinueWith<T, TState, TNewResult>(this Task<T> task, Func<Task<T>, TState, Task<TNewResult>> continuationFunction, TState state, TaskContinuationOptions taskContinuationOptions)
+            => task.ContinueWith((Task<T> _task, object? _state) => continuationFunction.Invoke(_task, (TState)_state!), state, taskContinuationOptions).Unwrap();
+        public static Task<TNewResult> ContinueWith<T, TState, TNewResult>(this Task<T> task, Func<Task<T>, TState, Task<TNewResult>> continuationFunction, TState state, TaskScheduler taskScheduler)
+            => task.ContinueWith((Task<T> _task, object? _state) => continuationFunction.Invoke(_task, (TState)_state!), state, taskScheduler).Unwrap();
+        public static Task<TNewResult> ContinueWith<T, TState, TNewResult>(this Task<T> task, Func<Task<T>, TState, Task<TNewResult>> continuationFunction, TState state, CancellationToken cancellationToken, TaskContinuationOptions taskContinuationOptions, TaskScheduler taskScheduler)
+            => task.ContinueWith(async (Task<T> _task, object? _state) => await continuationFunction.Invoke(_task, (TState)_state!), state, cancellationToken, taskContinuationOptions, taskScheduler).Unwrap();
+
+
 #if DEBUG
         static async void Test()
         {
             //fix async () =>
             await Task.Factory.StartNewWithAsyncContext(async () => { });
             int a = await Task.Factory.StartNewWithAsyncContext(async () => { return 2; });
+
+            Task<int> task = null;
+            double d = await task!.ContinueWith(ContinueTest, "state");
+        }
+
+        static async Task<double> ContinueTest(Task<int> task, string state)
+        {
+            await Task.Delay(100);
+            return 1.0;
         }
 #endif
     }
