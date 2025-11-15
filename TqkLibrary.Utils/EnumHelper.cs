@@ -60,5 +60,18 @@ namespace TqkLibrary.Utils
         {
             return (T)@enum.And(flag.Not());
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enum"></param>
+        /// <param name="flag"></param>
+        /// <returns></returns>
+        public static bool HasAnyFlag<T>(this T @enum, T flag) where T : struct, Enum
+        {
+            var e = @enum.RemoveFlag(flag);
+            return !e.Equals(@enum);
+        }
     }
 }
